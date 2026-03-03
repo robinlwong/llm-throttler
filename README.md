@@ -34,6 +34,17 @@ Most managed services limit by **Requests** (RPM). LLMs limit by **Tokens** (TPM
 
 ---
 
+## 🛠️ Advanced Infrastructure: GCP Billing Kill-Switch
+
+For environments using Google Cloud Platform (GCP) for agentic workflows, this repository includes a production-ready **GCP Billing Kill-Switch**.
+
+- **Location:** `gcp-billing-killswitch/`
+- **Function:** An event-driven Cloud Function (Gen 2) that automatically severs the project's link to the billing account if a budget threshold (100%) is breached.
+- **Architecture:** `Cloud Billing Budget` ➔ `Pub/Sub Topic` ➔ `Cloud Function`.
+- **OpSec Requirement:** The Cloud Function service account requires the `Project Billing Manager` role.
+
+---
+
 ## ⚖️ Corporate Disclosure & Disclaimer
 
 This software is provided for educational and research purposes only. 
