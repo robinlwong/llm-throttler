@@ -36,7 +36,7 @@ Most managed services limit by **Requests** (RPM). LLMs limit by **Tokens** (TPM
 
 ## ⚠️ Disclaimer
 
-This software is provided for educational and research purposes only. The authors, contributors, and Seqquant LLC (with global operations in Singapore, Dubai, London, New York, and New Jersey) are not responsible for any costs, API overages, financial losses, or service disruptions incurred through the use of this tool. Use at your own risk.
+This software is provided for educational and research purposes only. The authors and contributors are not responsible for any costs, API overages, financial losses, or service disruptions incurred through the use of this tool. Use at your own risk.
 
 ---
 
