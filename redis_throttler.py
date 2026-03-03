@@ -71,6 +71,44 @@ class LLMTokenThrottler:
             return False
 
 # --- Example Usage ---
+# --- Integration Examples (Multi-Provider) ---
+def example_gemini_integration(throttler, user_id, prompt):
+    """
+    Example: How to estimate tokens for Gemini 
+    (Requires google-generativeai package)
+    """
+    # 1. Count tokens using Gemini's specific tokenizer
+    # model = genai.GenerativeModel('gemini-pro')
+    # prompt_tokens = model.count_tokens(prompt).total_tokens
+    prompt_tokens = len(prompt) // 4  # Rough heuristic for demo
+    
+    # 2. Add buffer for expected completion (e.g., 1000 tokens)
+    total_cost = prompt_tokens + 1000 
+    
+    if throttler.consume_tokens(user_id, total_cost, 4000, 100):
+        print("🟢 Gemini Call Allowed")
+        # return model.generate_content(prompt)
+    else:
+        print("🔴 Gemini Rate Limited")
+
+def example_anthropic_integration(throttler, user_id, prompt):
+    """
+    Example: How to estimate tokens for Anthropic 
+    (Requires anthropic package)
+    """
+    # 1. Count tokens using Claude's specific tokenizer
+    # client = anthropic.Anthropic()
+    # prompt_tokens = client.count_tokens(prompt)
+    prompt_tokens = len(prompt) // 4  # Rough heuristic for demo
+    
+    # 2. Add buffer for expected completion
+    total_cost = prompt_tokens + 1000
+    
+    if throttler.consume_tokens(user_id, total_cost, 4000, 100):
+        print("🟢 Anthropic Call Allowed")
+    else:
+        print("🔴 Anthropic Rate Limited")
+
 if __name__ == "__main__":
     # Connect to your Redis instance
     # Defaults to localhost, but in production, use your EC2/ElastiCache endpoint
