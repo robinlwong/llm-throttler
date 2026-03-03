@@ -18,19 +18,25 @@ In multi-agent environments, several agents often hit the LLM gateway at the exa
 ### 2. Sub-Millisecond Latency (In-Memory Speed)
 Throttling is an overhead task; it must be faster than the primary task.
 - **The Comparison:** Standard API Gateways or databases incur disk I/O or complex network routing overhead. 
-- **The Redis Win:** As an in-memory data store, Redis handles these bucket checks in **sub-millisecond time**. This ensures that adding a safety layer to your agents doesn't introduce a perceptible lag in their "thinking" or response time.
+- **The Redis Win:** As an in-memory data store, Redis handles these bucket checks in **sub-millisecond time**. This ensures that adding a safety layer to your agents doesn't introduce a perceptible lag in their response time.
 
 ### 3. State Continuity Across Agents
 Your agents are likely distributed across different containers, servers, or even AWS regions.
-- **The Benefit:** Redis acts as the **"Single Source of Truth."** It doesn't matter if Agent A is in Singapore and Agent B is in London; as long as they point to the same Redis/ElastiCache instance, they share the same token pool. This prevents "Limit Leaks" that happen when rate-limiting is handled locally within individual agent code.
+- **The Benefit:** Redis acts as the **"Single Source of Truth."** It doesn't matter if Agent A is in one city and Agent B is in another; as long as they point to the same Redis instance, they share the same token pool. This prevents "Limit Leaks" that happen when rate-limiting is handled locally within individual agent code.
 
 ### 4. Dynamic TTL & Memory Efficiency
 Redis handles data expiration natively via the `EXPIRE` command.
-- **The Benefit:** In the `Token Bucket` implementation, we set a TTL based on the refill rate. If a user or agent stops making requests, their rate-limit data **automatically evaporates** from Redis. This prevents your "Token Bank" from growing into a massive, expensive database of inactive users.
+- **The Benefit:** In the `Token Bucket` implementation, we set a TTL based on the refill rate. If a user or agent stops making requests, their rate-limit data **automatically evaporates** from Redis. This prevents your "Token Bank" from growing into a massive database of inactive users.
 
 ### 5. Cost-Awareness (RPM vs. TPM)
 Most managed services limit by **Requests** (RPM). LLMs limit by **Tokens** (TPM).
-- **The Core Advantage:** Redis allows us to implement **Variable Costing**. We can charge an agent 1,000 tokens for a complex "Reasoning" task and only 50 tokens for a "Greeting" task. Standard cloud WAFs simply cannot differentiate between the two, making them blunt instruments for the surgical precision required in LLM management.
+- **The Core Advantage:** Redis allows us to implement **Variable Costing**. We can charge an agent 1,000 tokens for a complex "Reasoning" task and only 50 tokens for a "Greeting" task. Standard cloud tools simply cannot differentiate between the two, making them blunt instruments for the surgical precision required in LLM management.
+
+---
+
+## ⚠️ Disclaimer
+
+This software is provided for educational and research purposes only. The authors and contributors are not responsible for any costs, API overages, or service disruptions incurred through the use of this tool. Use at your own risk.
 
 ---
 
